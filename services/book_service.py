@@ -11,5 +11,10 @@ class BookService:
     def add_book(self, book:Book) -> str:
         return self.repo.add_book(book)
 
+    def delete_book(self, book_id: str):
+        self.repo.delete_book(book_id)
+
     def find_book_by_name(self, query:str) -> list[Book]:
+        if not isinstance(query, str):
+            raise TypeError("Query must be a string")
         return self.repo.find_book_by_name(query)

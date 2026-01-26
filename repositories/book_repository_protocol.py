@@ -7,6 +7,9 @@ class BookRepositoryProtocol(Protocol):
 
     def add_book(self, book:Book) -> str:
         ...
+    
+    def delete_book(self, book_id: str):
+        ...
 
     def find_book_by_name(self, query:str) -> list[Book]:
         ...

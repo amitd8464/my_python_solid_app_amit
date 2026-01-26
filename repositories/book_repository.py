@@ -18,5 +18,11 @@ class BookRepository(BookRepositoryProtocol):
             json.dump([b.to_dict() for b in books], f, indent=2)
         return book.book_id
 
+    def delete_book(self, book_id: str):
+        books = self.get_all_books()
+        books = [b for b in books if b.book_id != book_id]
+        with open(self.filepath, 'w', encoding='utf-8') as f:
+            json.dump([b.to_dict() for b in books], f, indent=2)
+
     def find_book_by_name(self, query) -> Book:
         return [b for b in self.get_all_books() if b.title == query]
