@@ -4,6 +4,7 @@ from domain.book import Book
 from services.book_service import BookService
 from services.book_analytics_service import BookAnalyticsService
 from repositories.book_repository import BookRepository
+from pprint import pprint
 
 class BookREPL:
     def __init__(self, book_svc, book_analytics_svc):
@@ -13,6 +14,8 @@ class BookREPL:
 
     def start(self):
         print('Welcome to the book app! Type \'Help\' for a list of commands!')
+        books = self.book_svc.get_all_books()
+        pprint(self.book_analytics_svc.median_price_by_genre(books))
         while self.running:
             cmd = input('>>>').strip()
             self.handle_command(cmd)
