@@ -1,6 +1,7 @@
 import numpy as np
 from domain.book import Book
 from collections import defaultdict
+import pandas as pd
 
 # Ground rules for NumPy:
 #   1. Keep NumPy only the service layer!
@@ -40,6 +41,7 @@ class BookAnalyticsService:
 
         return {book.book_id: float(score) for book, score in zip(books, scores)}
 
+    # Used NumPy for this method
     def median_price_by_genre(self, books: list[Book]) -> dict[str, float]:
         genres = {
             "Fanstasy": 0,
@@ -60,3 +62,10 @@ class BookAnalyticsService:
             genre: f'${float(np.median(prices)):.2f}'
             for genre, prices in genre_prices.items()
         }
+    
+    def most_popular_genre_by_year(self, books: list[Book], year=2025):
+        df = pd.DataFrame(books)
+
+        genre_sales = df.groupby("genre").count().sort_values(by="title", ascending=False)
+        most_popular = genre_sales.index[0]
+        return most_popular

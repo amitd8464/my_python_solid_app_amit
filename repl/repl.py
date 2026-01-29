@@ -42,9 +42,14 @@ class BookREPL:
             self.get_top_books()
         elif cmd == "getValueScores":
             self.get_value_scores()
+        elif cmd == "mostPopularGenre":
+            self.most_popular_genre()
         else:
             print('Please use a valid command!')
     
+    def most_popular_genre(self):
+        books = self.book_svc.get_all_books()
+        print(self.book_analytics_svc.most_popular_genre_by_year(books))
     def get_average_price(self):
         books = self.book_svc.get_all_books()
         print(self.book_analytics_svc.average_price(books))
