@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Optional
 import uuid
+from custom_errors.book_unavailable import BookUnavailableError
 
 @dataclass
 class Book:
@@ -23,7 +24,7 @@ class Book:
 
     def check_out(self):
         if not self.available:
-            raise Exception('Book is already checked out.')
+            raise BookUnavailableError('Sorry! This book is already checked out.')
         self.available = False
     
     def check_in(self):
@@ -54,3 +55,14 @@ class Book:
             "last_checkout": self.last_checkout,
             "available": self.available
         }
+
+'''
+We could have a record that holds either check in or check out info
+
+Attributes would be something like:
+    book: Book
+    type_of_check : check in or check out
+    time : datetime of check in or check out
+
+One object for check in: 
+'''

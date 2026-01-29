@@ -4,6 +4,7 @@ from domain.book import Book
 from services.book_service import BookService
 from services.book_analytics_service import BookAnalyticsService
 from repositories.book_repository import BookRepository
+from custom_errors.book_not_found import BookNotFoundError
 from pprint import pprint
 
 class BookREPL:
@@ -21,31 +22,57 @@ class BookREPL:
             self.handle_command(cmd)
     
     def handle_command(self, cmd):
-        if cmd == 'exit':
-            self.running = False
-            print('Goodbye!')
-        elif cmd == 'getAllRecords':
-            self.get_all_records()
-        elif cmd == 'addBook':
-            self.add_book()
-        elif cmd == 'deleteBook':
-            self.delete_book()
-        elif cmd == 'findByName':
-            self.find_book_by_name()
-        elif cmd == 'help':
-            print('Available commands: addBook, getAllRecords, findByName, getAveragePrice, getTopBooks, help, exit')
-        elif cmd == 'getJoke':
-            self.get_joke()
-        elif cmd == "getAveragePrice":
-            self.get_average_price()
-        elif cmd == "getTopBooks":
-            self.get_top_books()
-        elif cmd == "getValueScores":
-            self.get_value_scores()
-        elif cmd == "mostPopularGenre":
-            self.most_popular_genre()
-        else:
-            print('Please use a valid command!')
+        match cmd:
+            case 'exit':
+                self.running = False
+                print('Goodbye!')
+            case 'getAllRecords':
+                self.get_all_records()
+            case 'addBook':
+                self.add_book()
+            case 'deleteBook':
+                self.delete_book()
+            case 'findByName':
+                self.find_book_by_name()
+            case 'help':
+                print('Available commands: addBook, getAllRecords, findByName, getAveragePrice, getTopBooks, help, exit')
+            case 'getJoke':
+                self.get_joke()
+            case 'getAveragePrice':
+                self.get_average_price()
+            case 'getTopBooks':
+                self.get_top_books()
+            case 'getValueScores':
+                self.get_value_scores()
+            case 'mostPopularGenre':
+                self.most_popular_genre()
+            case 'checkOut':
+                self.check_out()
+            case 'checkIn':
+                self.check_in()
+            case _:
+                print('Please use a valid command!')
+    
+    # check in / check out methods:
+
+    def check_out(self):
+        title = input("Enter the book title: ")
+        author = input("Enter the book author: ")
+        
+        try:
+            book = self.book_svc.check_out_book(title, author)
+            print(f'Success! You have checked out the following book:\nTitle: {book.title}\nAuthor: {book.author}\nBook ID: {book.book_id}')
+        except Exception as e:
+            print(e)
+    
+    def check_in(self):
+        book_id = input("Please enter the book ID: ")
+        
+        try:
+            self.book_svc.check_in_book(book_id)
+            print('Your book has been successfully checked in!')
+        except Exception as e:
+            print(e)
     
     def most_popular_genre(self):
         books = self.book_svc.get_all_books()

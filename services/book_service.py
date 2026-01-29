@@ -18,3 +18,9 @@ class BookService:
         if not isinstance(query, str):
             raise TypeError("Query must be a string")
         return self.repo.find_book_by_name(query)
+    
+    def check_out_book(self, title, author):
+        return self.repo.check_out_book(title, author)
+
+    def check_in_book(self, book_id):
+        return self.repo.check_in_book(book_id)
