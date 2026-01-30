@@ -13,3 +13,9 @@ class BookRepositoryProtocol(Protocol):
 
     def find_book_by_name(self, query:str) -> list[Book]:
         ...
+    
+    def check_out_book(self, title: str, author: str) -> Book:
+        ...
+    
+    def check_in_book(self, book_id) -> None:
+        ...

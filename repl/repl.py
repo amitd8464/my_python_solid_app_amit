@@ -4,6 +4,7 @@ from domain.book import Book
 from services.book_service import BookService
 from services.book_analytics_service import BookAnalyticsService
 from repositories.book_repository import BookRepository
+from repositories.customer_interactions_repository import CustomerInteractionsRepository
 from custom_errors.book_not_found import BookNotFoundError
 from pprint import pprint
 
@@ -129,8 +130,10 @@ class BookREPL:
             
 if __name__ == '__main__':
     generate_books_json()
-    repo = BookRepository('books.json')
-    book_service = BookService(repo)
+    # customer interactions repo will handle persistence of records for each check in and check out
+    customer_interactions_repo = CustomerInteractionsRepository('customer_records.json')
+    book_repo = BookRepository(customer_interactions_repo, 'books.json')
+    book_service = BookService(book_repo)
     book_analytics_service = BookAnalyticsService()
     repl = BookREPL(book_service, book_analytics_service)
     repl.start()

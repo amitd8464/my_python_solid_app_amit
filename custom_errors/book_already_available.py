@@ -1,0 +1,2 @@
+class BookAlreadyAvailableError(Exception):
+    pass

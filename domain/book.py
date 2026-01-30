@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from typing import Optional
 import uuid
 from custom_errors.book_unavailable import BookUnavailableError
+from custom_errors.book_already_available import BookAlreadyAvailableError
 
 @dataclass
 class Book:
@@ -22,6 +23,14 @@ class Book:
     available: Optional[bool] = None
     book_id: str = field(default_factory=lambda: str(uuid.uuid4()))
 
+    '''
+    for interview practice: this is a form of encapsulation
+        even though book.available is a public variable, we are using mutator
+        methods to change its value and apply additional checking logic
+
+        Best practice would be to make most of these variables private and write
+        getters and setters for them
+    '''
     def check_out(self):
         if not self.available:
             raise BookUnavailableError('Sorry! This book is already checked out.')
@@ -29,7 +38,7 @@ class Book:
     
     def check_in(self):
         if self.available:
-            raise Exception('Book is already available.')
+            raise BookAlreadyAvailableError('Book is already available.')
         self.available = True
 
     @classmethod
