@@ -3,6 +3,7 @@ from domain.book import Book
 from repositories.book_repository_protocol import BookRepositoryProtocol
 from repositories.customer_interactions_repository import CustomerInteractionsRepository
 from custom_errors.book_not_found import BookNotFoundError
+from domain.customer_interaction import InteractionType
 
 class   BookRepository(BookRepositoryProtocol):
     def __init__(self, customer_interactions_repo: CustomerInteractionsRepository, filepath: str="books.json"):
@@ -43,13 +44,13 @@ class   BookRepository(BookRepositoryProtocol):
             # handle check out and JSON persistence
             book.check_out()
             books = [b for b in books if b.book_id != book.book_id]
-            books.append(book) 
+            books.append(book)
 
             with open(self.filepath, 'w', encoding='utf-8') as f:
                 json.dump([b.to_dict() for b in books], f, indent=2)
 
             # call method from ci repo to handle interaction persistence
-            self.ci_repo.log_interaction()
+            self.ci_repo.log_interaction(book_id=book.book_id, interaction=InteractionType.OUT)
             return book
     def check_in_book(self, book_id: str):
         books = self.get_all_books()
@@ -64,3 +65,6 @@ class   BookRepository(BookRepositoryProtocol):
 
             with open(self.filepath, 'w', encoding='utf-8') as f:
                 json.dump([b.to_dict() for b in books], f, indent=2)
+            
+            # call method from ci repo to handle interaction persistence
+            self.ci_repo.log_interaction(book_id=book.book_id, interaction=InteractionType.IN)

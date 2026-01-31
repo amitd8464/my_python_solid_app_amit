@@ -1,0 +1,20 @@
+[
+  {
+    "interaction_id": "753e951e-cc56-4d14-9627-e42f74f91a55",
+    "book_id": "fec732d6-264c-47db-9969-a7fe9a547530",
+    "interaction": "O",
+    "timestamp": "2026-01-31T00:10:31.806014"
+  },
+  {
+    "interaction_id": "bb2c93b4-1dea-4dbe-824d-6548520f5798",
+    "book_id": "fec732d6-264c-47db-9969-a7fe9a547530",
+    "interaction": "I",
+    "timestamp": "2026-01-31T00:11:32.245903"
+  },
+  {
+    "interaction_id": "51da9c24-1c95-4725-ab99-3aaa8d9cbc36",
+    "book_id": "fec732d6-264c-47db-9969-a7fe9a547530",
+    "interaction": "O",
+    "timestamp": "2026-01-31T00:12:12.110466"
+  }
+]
