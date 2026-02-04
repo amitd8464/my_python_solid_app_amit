@@ -6,13 +6,13 @@ from sqlalchemy.orm import relationship
 from src.base import Base
 
 
-class CheckoutHistory:
+class CheckoutHistory(Base):
     __tablename__ = "checkout_history"
 
     checkout_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     book_id = Column(UUID(as_uuid=True), ForeignKey("books.book_id"), nullable=False)
 
-    checkout_date = Column(DateTime, default=datetime.now(timezone.utc))
+    checkout_date = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     return_date = Column(DateTime, nullable=True)
     due_date = Column(DateTime, nullable=True)
     returned = Column(Boolean, default=False)

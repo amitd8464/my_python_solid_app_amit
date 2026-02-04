@@ -20,6 +20,7 @@ if src_path not in sys.path:
     sys.path.insert(0, src_path)
 
 # This is needed for Alembic to recognize where to get metadata from
+from src.settings import settings
 import src.domain
 from src.base import Base
 
@@ -30,9 +31,7 @@ POSTGRES_PASSWORD="your_db_password"
 POSTGRES_DB="your_db_name"
 
 config = context.config
-database_url = os.getenv("DATABASE_URL")
-if database_url:
-    config.set_main_option("sqlalchemy.url", database_url)
+config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
