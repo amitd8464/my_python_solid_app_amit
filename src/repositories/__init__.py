@@ -1,0 +1,3 @@
+from .book_repository import BookRepository
+from .book_repository_protocol import BookRepositoryProtocol
+from .customer_interactions_repository import CustomerInteractionsRepository

@@ -4,15 +4,31 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+from src.base import Base
 
 from dotenv import load_dotenv
 load_dotenv()
 
 import os
-import domain
+import sys
+from pathlib import Path
+
+# ensure project src/ is importable so "import domain" continues to work after moving to src/
+repo_root = Path(__file__).resolve().parents[1]
+src_path = str(repo_root / "src")
+if src_path not in sys.path:
+    sys.path.insert(0, src_path)
+
+# This is needed for Alembic to recognize where to get metadata from
+import src.domain
+from src.base import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
+POSTGRES_USER="your_db_user"
+POSTGRES_PASSWORD="your_db_password"
+POSTGRES_DB="your_db_name"
+
 config = context.config
 database_url = os.getenv("DATABASE_URL")
 if database_url:
