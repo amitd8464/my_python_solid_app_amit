@@ -1,12 +1,12 @@
 import json
 from domain.book import Book
 from repositories.book_repository_protocol import BookRepositoryProtocol
-from repositories.customer_interactions_repository import CustomerInteractionsRepository
+from repositories.customer_interactions_repository_protocol import CustomerInteractionsRepositoryProtocol
 from custom_errors.book_not_found import BookNotFoundError
 from domain.customer_interaction import InteractionType
 
 class   BookRepository(BookRepositoryProtocol):
-    def __init__(self, customer_interactions_repo: CustomerInteractionsRepository, filepath: str="books.json"):
+    def __init__(self, customer_interactions_repo: CustomerInteractionsRepositoryProtocol, filepath: str="books.json"):
         self.filepath = filepath
         self.ci_repo = customer_interactions_repo
 

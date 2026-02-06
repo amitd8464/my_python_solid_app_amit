@@ -12,7 +12,7 @@ import pandas as pd
 class BookAnalyticsService:
     def average_price(self, books: list[Book]):
         prices = np.array([b.price_usd for b in books])
-        return float(prices.mean())
+        return round(float(prices.mean()), 2)
 
     def top_rated(self, books: list[Book], min_ratings: int = 1000, limit: int = 10):
 

@@ -16,5 +16,23 @@
     "book_id": "fec732d6-264c-47db-9969-a7fe9a547530",
     "interaction": "O",
     "timestamp": "2026-01-31T00:12:12.110466"
+  },
+  {
+    "interaction_id": "925640a4-5bf5-423d-9739-916ecbecafe9",
+    "book_id": "4ff6a732-86a4-4d6a-b2e7-f4f38babdd57",
+    "interaction": "I",
+    "timestamp": "2026-02-05T08:17:49.909436"
+  },
+  {
+    "interaction_id": "79620362-31ad-4406-bc5b-0c565c1d6e74",
+    "book_id": "0c699b96-1735-46d6-8f5f-63afb4e26ad1",
+    "interaction": "O",
+    "timestamp": "2026-02-05T18:09:57.920230"
+  },
+  {
+    "interaction_id": "b8473682-2281-4076-a04b-233d4f024243",
+    "book_id": "0c699b96-1735-46d6-8f5f-63afb4e26ad1",
+    "interaction": "I",
+    "timestamp": "2026-02-05T18:10:27.400072"
   }
 ]

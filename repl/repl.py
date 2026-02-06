@@ -1,5 +1,6 @@
 import requests
-from services.book_generator_service import generate_books_json
+from services.book_generator_service_V2 import generate_books_json
+from services.book_generator_bad_data_service import generate_books
 from domain.book import Book
 from services.book_service import BookService
 from services.book_analytics_service import BookAnalyticsService
@@ -17,8 +18,9 @@ class BookREPL:
     def start(self):
         print('Welcome to the book app! Type \'Help\' for a list of commands!')
         books = self.book_svc.get_all_books()
-        pprint(self.book_analytics_svc.median_price_by_genre(books))
+        # (self.book_analytics_svc.median_price_by_genre(books))
         while self.running:
+            print()
             cmd = input('>>>').strip()
             self.handle_command(cmd)
     
@@ -77,16 +79,23 @@ class BookREPL:
     
     def most_popular_genre(self):
         books = self.book_svc.get_all_books()
-        print(self.book_analytics_svc.most_popular_genre_by_year(books))
+        print(f'The most popular genre at the moment is {self.book_analytics_svc.most_popular_genre_by_year(books)}')
     def get_average_price(self):
         books = self.book_svc.get_all_books()
-        print(self.book_analytics_svc.average_price(books))
+        print(f'Average Book Price: ${self.book_analytics_svc.average_price(books)}')
     def get_top_books(self):
         books = self.book_svc.get_all_books()
-        print(self.book_analytics_svc.top_rated(books))
+        top_books = self.book_analytics_svc.top_rated(books)
+        print("Top 10 Book Titles:")
+        i = 1
+        for b in top_books:
+            print(f'{i}. {b.title}')
+            i+=1
     def get_value_scores(self):
         books = self.book_svc.get_all_books()
-        print(self.book_analytics_svc.value_scores(books))
+        value_scores = self.book_analytics_svc.value_scores(books)
+        for b_id, v in value_scores.items():
+            print(f'ID {b_id}:      Score: {v}')
 
     def get_joke(self):
         try:
@@ -104,11 +113,13 @@ class BookREPL:
     def find_book_by_name(self):
         query = input('Please enter book name: ')
         books = self.book_svc.find_book_by_name(query)
-        print(books)
+        for b in books:
+            print(b)
 
     def get_all_records(self):
         books = self.book_svc.get_all_books()
-        print(books)
+        for b in books:
+            print(b.quick_info())
 
     def add_book(self):
         try:
@@ -117,19 +128,21 @@ class BookREPL:
             author = input('Author: ')
             book = Book(title= title, author=author)
             new_book_id = self.book_svc.add_book(book)
-            print(new_book_id)
+            print("\nYour book has been added!")
+            print(f'ID: {new_book_id}')
         except Exception as e:
             print(f'An unexpected error has occurred: {e}')
     def delete_book(self):
         try:
             book_id = input('Please enter the Book ID to delete: ')
             self.book_svc.delete_book(book_id)
-            print(f'Book with ID {book_id} has been deleted.')
+            print(f'\nBook with ID {book_id} has been deleted.')
         except Exception as e:
             print(f'An unexpected error has occurred: {e}')
             
 if __name__ == '__main__':
     generate_books_json()
+    generate_books()
     # customer interactions repo will handle persistence of records for each check in and check out
     customer_interactions_repo = CustomerInteractionsRepository('customer_records.json')
     book_repo = BookRepository(customer_interactions_repo, 'books.json')

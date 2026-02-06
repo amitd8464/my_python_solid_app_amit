@@ -1,9 +1,10 @@
+from repositories.customer_interactions_repository_protocol import CustomerInteractionsRepositoryProtocol
 from domain.customer_interaction import CustomerInteraction
 from domain.customer_interaction import InteractionType
 from domain.book import Book
 import json
 
-class CustomerInteractionsRepository:
+class CustomerInteractionsRepository(CustomerInteractionsRepositoryProtocol):
     def __init__(self, filepath):
         self.filepath = filepath
     

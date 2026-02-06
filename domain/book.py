@@ -23,20 +23,45 @@ class Book:
     available: Optional[bool] = None
     book_id: str = field(default_factory=lambda: str(uuid.uuid4()))
 
-    '''
-    for interview practice: this is a form of encapsulation
-        even though book.available is a public variable, we are using mutator
-        methods to change its value and apply additional checking logic
+    def __str__(self) -> str:
+        status = "◌ Available" if self.available else " ● Checked Out"
+        
+        # Main information about the book prints first
+        primary = (
+            f"Title:        {self.title}\n"
+            f"Author:       {self.author}\n"
+            f"Status:       {status}\n"
+            f"Book ID:      {self.book_id}"
+        )
+        
+        # Secondary information will print here, separated by a line
+        secondary = (
+            f"Price:        {self.price_usd:.2f}\n"
+            f"Year:         {self.publication_year or 'Unknown'}\n"
+            f"Rating:       {self.average_rating or 'No ratings'} ({self.ratings_count or 0} reviews)\n"
+            f"Publisher:    {self.publisher or 'N/A'}\n"
+            f"Format:       {self.format or 'N/A'} ({self.language or 'Unknown'})"
+        )
+        
+        separator = "-" * 40
+        return f"\n{primary}\n{separator}\n{secondary}\n"
+    
+    def quick_info(self) -> str:
+        status = "◌ Available" if self.available else " ● Checked Out"
+        quick_info = (
+            f"Title:        {self.title}\n"
+            f"Author:       {self.author}\n"
+            f"Price:       {status}\n"
+            f"Book ID:      {self.book_id}"
+        )
+        return f"\n{quick_info}\n"
 
-        Best practice would be to make most of these variables private and write
-        getters and setters for them
-    '''
-    def check_out(self):
+    def check_out(self) -> bool:
         if not self.available:
             raise BookUnavailableError('Sorry! This book is already checked out.')
         self.available = False
     
-    def check_in(self):
+    def check_in(self) -> bool:
         if self.available:
             raise BookAlreadyAvailableError('Book is already available.')
         self.available = True
@@ -64,14 +89,3 @@ class Book:
             "last_checkout": self.last_checkout,
             "available": self.available
         }
-
-'''
-We could have a record that holds either check in or check out info
-
-Attributes would be something like:
-    book: Book
-    type_of_check : check in or check out
-    time : datetime of check in or check out
-
-One object for check in: 
-'''
