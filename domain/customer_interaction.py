@@ -31,6 +31,17 @@ class CustomerInteraction:
         if isinstance(self.interaction, str):
             self.interaction = InteractionType(self.interaction)
         
+    def __str__(self) -> str:     
+        interaction_type = "Check In" if self.interaction == InteractionType.IN else "Check Out"   
+        res = (
+            f"Timestamp:       {self.timestamp}\n"
+            f"Interaction ID:  {self.interaction_id}\n"
+            f"Book ID:         {self.book_id}\n"
+            f"Action:       {interaction_type}\n"
+        )  
+        separator = "-" * 40
+        return f"\n{res}\n{separator}\n"
+    
     @classmethod
     def from_dict(cls, data:dict) -> 'CustomerInteraction':
         # Gemini explained that it is better to store datetime in isoformat()

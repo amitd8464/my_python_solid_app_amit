@@ -3,6 +3,7 @@ from services.book_generator_service_V2 import generate_books_json
 from services.book_generator_bad_data_service import generate_books
 from domain.book import Book
 from services.book_service import BookService
+from services.customer_interactions_service import CustomerInteractionsService
 from services.book_analytics_service import BookAnalyticsService
 from repositories.book_repository import BookRepository
 from repositories.customer_interactions_repository import CustomerInteractionsRepository
@@ -10,10 +11,11 @@ from custom_errors.book_not_found import BookNotFoundError
 from pprint import pprint
 
 class BookREPL:
-    def __init__(self, book_svc, book_analytics_svc):
+    def __init__(self, book_svc, book_analytics_svc, customer_interactions_svc):
         self.running = True
         self.book_svc = book_svc
         self.book_analytics_svc = book_analytics_svc
+        self.customer_interactions_svc = customer_interactions_svc
 
     def start(self):
         print('Welcome to the book app! Type \'Help\' for a list of commands!')
@@ -37,7 +39,7 @@ class BookREPL:
             case 'findByName':
                 self.find_book_by_name()
             case 'help':
-                print('Available commands: addBook, getAllRecords, findByName, getAveragePrice, getTopBooks, help, exit')
+                print('Available commands: addBook, deleteBook, checkIn, checkOut, listInteractions, getAllRecords, findByName, getAveragePrice, getTopBooks, help, exit')
             case 'getJoke':
                 self.get_joke()
             case 'getAveragePrice':
@@ -52,9 +54,16 @@ class BookREPL:
                 self.check_out()
             case 'checkIn':
                 self.check_in()
+            case 'listInteractions':
+                self.list_interactions()
             case _:
                 print('Please use a valid command!')
     
+    def list_interactions(self):
+        interactions = self.customer_interactions_svc.get_all_interactions()
+        for i in interactions:
+            print(i)
+
     # check in / check out methods:
 
     def check_out(self):
@@ -146,6 +155,7 @@ if __name__ == '__main__':
     customer_interactions_repo = CustomerInteractionsRepository('customer_records.json')
     book_repo = BookRepository(customer_interactions_repo, 'books.json')
     book_service = BookService(book_repo)
+    customer_interactions_service = CustomerInteractionsService(customer_interactions_repo)
     book_analytics_service = BookAnalyticsService()
-    repl = BookREPL(book_service, book_analytics_service)
+    repl = BookREPL(book_service, book_analytics_service, customer_interactions_service)
     repl.start()
