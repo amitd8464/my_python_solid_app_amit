@@ -18,7 +18,6 @@ class BookREPL:
     def start(self):
         print('Welcome to the book app! Type \'Help\' for a list of commands!')
         books = self.book_svc.get_all_books()
-        # (self.book_analytics_svc.median_price_by_genre(books))
         while self.running:
             print()
             cmd = input('>>>').strip()
