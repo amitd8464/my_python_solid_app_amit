@@ -31,6 +31,22 @@ class   BookRepository(BookRepositoryProtocol):
     def find_book_by_name(self, query: str) -> Book:
         return [b for b in self.get_all_books() if b.title == query]
     
+    def update_book(self, book_id: str, updated_data: dict) -> Book:
+        book = self.find_book_by_id(book_id)
+        books = self.get_all_books()
+        
+        for key, value in updated_data.items():
+            if hasattr(book, key):
+                current_type = type(getattr(book, key))
+                setattr(book, key, current_type(value))
+                
+        books = [b for b in books if b.book_id != book.book_id]
+        books.append(book)
+
+        with open(self.filepath, 'w', encoding='utf-8') as f:
+                json.dump([b.to_dict() for b in books], f, indent=2)
+        return book
+
     def find_book_by_id(self, book_id: str) -> Book:
         books = self.get_all_books()
         return next((b for b in books if b.book_id == book_id), None)

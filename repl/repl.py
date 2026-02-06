@@ -4,6 +4,7 @@ from services.book_generator_bad_data_service import generate_books
 from domain.book import Book
 from services.book_service import BookService
 from services.customer_interactions_service import CustomerInteractionsService
+from dataclasses import fields
 from services.book_analytics_service import BookAnalyticsService
 from repositories.book_repository import BookRepository
 from repositories.customer_interactions_repository import CustomerInteractionsRepository
@@ -38,6 +39,8 @@ class BookREPL:
                 self.delete_book()
             case 'findByName':
                 self.find_book_by_name()
+            case 'updateBook':
+                self.update_book()
             case 'help':
                 print('Available commands: addBook, deleteBook, checkIn, checkOut, listInteractions, getAllRecords, findByName, getAveragePrice, getTopBooks, help, exit')
             case 'getJoke':
@@ -147,7 +150,38 @@ class BookREPL:
             print(f'\nBook with ID {book_id} has been deleted.')
         except Exception as e:
             print(f'An unexpected error has occurred: {e}')
-            
+    
+    def update_book(self):
+        updates = {}
+        book_id = input("Please enter the book ID of the book you'd like to update:\n")
+        print("\nWhich field would you like to update?\n")
+        for f in ["1. Title", "2. Author", "3. Average Rating", "4. Price", "5. Publisher"]:
+            print(f)
+        print("")
+        option = input("\nPlease input the number: ")
+        match option:
+            case "1":
+                value = input("\nPlease enter the new title: ")
+                updates["title"] = value
+            case "2":
+                value = input("\nPlease enter the new author: ")
+                updates["author"] = value
+            case "3":
+                value = input("\nPlease enter the new rating: ")
+                updates["average_rating"] = value
+            case "4":
+                value = input("\nPlease enter the new price: ")
+                updates["price_usd"] = value
+            case "5":
+                value = input("\nPlease enter the new publisher: ")
+                updates["publisher"] = value
+            case _:
+                print("Invalid option.")
+                return
+
+        updated_book = self.book_svc.update_book_details(book_id, updates)
+        print("The book has been updated!")
+        print(updated_book)
 if __name__ == '__main__':
     generate_books_json()
     generate_books()

@@ -52,5 +52,29 @@
     "book_id": "5be364c5-f8a9-44bb-b0b1-39cf4d7cda2c",
     "interaction": "I",
     "timestamp": "2026-02-05T22:44:11.992235"
+  },
+  {
+    "interaction_id": "c4183806-9b4e-419b-8e93-f6b5e62a7287",
+    "book_id": "9c7f3130-ffc7-411f-9d10-9800249f9dd6",
+    "interaction": "O",
+    "timestamp": "2026-02-06T09:26:35.524341"
+  },
+  {
+    "interaction_id": "dad14d08-d9e6-426b-86a1-badc41381243",
+    "book_id": "9c7f3130-ffc7-411f-9d10-9800249f9dd6",
+    "interaction": "I",
+    "timestamp": "2026-02-06T09:27:16.673515"
+  },
+  {
+    "interaction_id": "d5cd4559-a944-4de6-8aac-1bb1136b5d3f",
+    "book_id": "0ddfacc1-da94-4599-aaba-45f23457f729",
+    "interaction": "O",
+    "timestamp": "2026-02-06T10:27:43.343680"
+  },
+  {
+    "interaction_id": "3ba1beaf-73de-43f3-b917-bfd5cb9416c8",
+    "book_id": "0ddfacc1-da94-4599-aaba-45f23457f729",
+    "interaction": "I",
+    "timestamp": "2026-02-06T10:28:06.673063"
   }
 ]

@@ -36,7 +36,7 @@ class Book:
         
         # Secondary information will print here, separated by a line
         secondary = (
-            f"Price:        {self.price_usd:.2f}\n"
+            f"Price:        ${self.price_usd:.2f}\n"
             f"Year:         {self.publication_year or 'Unknown'}\n"
             f"Rating:       {self.average_rating or 'No ratings'} ({self.ratings_count or 0} reviews)\n"
             f"Publisher:    {self.publisher or 'N/A'}\n"

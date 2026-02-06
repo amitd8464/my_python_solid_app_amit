@@ -19,6 +19,13 @@ class BookService:
             raise TypeError("Query must be a string")
         return self.repo.find_book_by_name(query)
     
+    def update_book_details(self, book_id: str, updates: dict) -> Book:
+        # Prevent primary key (book_id) from being updated
+        if "book_id" in updates:
+            del updates["book_id"] 
+        
+        return self.repo.update_book(book_id, updates)
+    
     def check_out_book(self, title: str, author: str):
         
         return self.repo.check_out_book(title, author)
